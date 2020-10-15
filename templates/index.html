@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Maximos y Minimos</title>
+        <script src="{{url_for('static',filename='angular.min.js')}}"></script>
+        <script src="{{url_for('static',filename='maxmin.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+    </head>
+    <body ng-app="maxmin" ng-controller="max-minCtrl">
+        <h1>Maximos y Minimos</h1>
+      <div class="card">
+        <label for="">Max o Min: </label>
+        <select ng-model="maxomin" name="" id="">
+          <option value="max">Maximizar</option>
+          <option value="min">Minimizar</option>
+        </select>
+        <br><br>
+        <label for="">Funcion Objetivo:</label>
+        <input class="numInput" ng-model="formaCanonica.x1" type="number"><label for="">X1+</label>
+        <input class="numInput" ng-model="formaCanonica.x2" type="number"><label for="">X2</label>
+        <!-- <button>Guardar</button> -->
+        <br><br>
+        <label for="">Restricciones:</label>
+        <select name="" id="" ng-model="numRestricciones" ng-change="llenarRestricciones()">
+          <option value="select" disabled>Numero</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+        <br>
+        <br>
+        <div class="todasRestricciones" ng-repeat="restriccion in restricciones track by $index">
+          <input class="numInput" ng-model="restriccion.x1" type="number"><label for="">X1+</label>
+          <input class="numInput" ng-model="restriccion.x2" type="number"><label for="">X2</label>
+          <select ng-model="restriccion.igualador" name="" id="">
+            <option value=">=">>=</option>
+            <option value="<="><=</option>
+            <option value="=">=</option>
+          </select>
+          <input class="numInput" ng-model="restriccion.resultado" type="number">
+        </div>
+        <!-- <button ng-click="guardarRestriccion()">Guardar Restriccion</button> -->
+        <br>
+        <button ng-click="calcular()">Calcular y Graficar</button>
+      </div>
+        <br><br>
+      </body>
+</html>
