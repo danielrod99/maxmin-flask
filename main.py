@@ -13,7 +13,10 @@ def informacion():
 def calcular():
     if request.method== 'POST':
         fullData=request.get_json()
-        print(fullData[0]['x1'])
-        return 'data collected'
+        formaCanonica=fullData['canonica']
+        todasRestricciones=fullData['restricciones']
+        print(formaCanonica)
+        print(todasRestricciones)
+        return 'data collected' #aqui se deben de devolver los resultados
 if __name__=='__main__':
     app.run(debug=True)

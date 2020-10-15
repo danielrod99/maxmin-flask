@@ -24,7 +24,11 @@ app.controller('max-minCtrl', function ($scope,$http) {
     }    
     $scope.calcular=function(){
         console.log($scope.restricciones)
-        $http.post('/calcular',JSON.stringify($scope.restricciones)).then((result)=>{
+        var fullBody={
+            "canonica": $scope.formaCanonica,
+            "restricciones": $scope.restricciones
+        }
+        $http.post('/calcular',JSON.stringify(fullBody)).then((result)=>{
             console.log(result)
         })
         
