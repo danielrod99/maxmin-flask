@@ -3,7 +3,7 @@
 var app = angular.module('maxmin', []);
 app.controller('max-minCtrl', function ($scope,$http) {
     $scope.restricciones = [];
-    $scope.maxomin = 'max';
+    $scope.maxomin = 'Maximizar';
     $scope.numRestricciones = 'select';
     $scope.todosValidos = []
     $scope.formaCanonica={
@@ -25,6 +25,7 @@ app.controller('max-minCtrl', function ($scope,$http) {
     $scope.calcular=function(){
         console.log($scope.restricciones)
         var fullBody={
+            "maxomin": $scope.maxomin,
             "canonica": $scope.formaCanonica,
             "restricciones": $scope.restricciones
         }
