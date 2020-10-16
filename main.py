@@ -65,6 +65,74 @@ def calcular():
         """
         Puntos
         """
+        puntosConRepeticion=[]
+        newPuntos=[]
+        todosPuntos=[]
+        for otherX in range(len(todasRestricciones)):
+            a=float(todasRestricciones[otherX]["x1"])
+            b=float(todasRestricciones[otherX]["x2"])
+            c=float(todasRestricciones[otherX]["resultado"])
+            if a!=0:
+                paraX=[(c/a),0]
+                puntosConRepeticion.append(paraX)
+            if b!=0:
+                paraY=[0,(c/b)]
+                puntosConRepeticion.append(paraY)
+            for another in range(len(todasRestricciones)):
+                d=float(todasRestricciones[another]["x1"])
+                e=float(todasRestricciones[another]["x2"])
+                f=float(todasRestricciones[another]["resultado"])
+                if otherX != another:
+                    #sacar puntos
+                    g = a * e - b * d
+                    if g==0:
+                        return 'Inderterminacion'
+                    x=(c*e-b*f)/g
+                    y=(a*f-c*d)/g
+                    soloUno=[]
+                    soloUno.append(x)
+                    soloUno.append(y)
+                    puntosConRepeticion.append(soloUno)
+        for a in range(len(puntosConRepeticion)):
+            for b in range(len(puntosConRepeticion)):
+                if a!=b and puntosConRepeticion[a][0]==puntosConRepeticion[b][0] and puntosConRepeticion[a][1]==puntosConRepeticion[b][1] and puntosConRepeticion[b][0]!=-1 and puntosConRepeticion[b][1]!=-1:
+                    puntosConRepeticion[b][0]=-1
+                    puntosConRepeticion[b][1]=-1
+        for a in range(len(puntosConRepeticion)):
+            if puntosConRepeticion[a][0]!=-1 and puntosConRepeticion[a][1]!=-1:
+                todosPuntos.append(puntosConRepeticion[a]) 
+        exito=True
+        for another in range(len(todosPuntos)):
+            for otherX in range(len(todasRestricciones)):
+                a=float(todasRestricciones[otherX]["x1"])
+                b=float(todasRestricciones[otherX]["x2"])
+                igual=todasRestricciones[otherX]["igualador"]
+                c=float(todasRestricciones[otherX]["resultado"])
+                resu=(a*todosPuntos[another][0])+(b*todosPuntos[another][1])
+                if igual==">=":
+                    if resu>=c:
+                        exito=True
+                    else:
+                        exito=False
+                        break
+                elif igual=="<=":
+                    if resu<=c:
+                        exito=True
+                    else:
+                        exito=False
+                        break
+                elif igual=="=":
+                    if resu==c:
+                        exito=True
+                    else:
+                        exito=False
+                        break  
+            if exito:
+                newPuntos.append(todosPuntos[another])            
+        print(newPuntos) 
+        """
+        Graficar
+        """
         return 'data collected' #aqui se deben de devolver los resultados
 if __name__=='__main__':
     app.run(debug=True)
