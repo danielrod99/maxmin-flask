@@ -12,6 +12,7 @@ app.controller('max-minCtrl', function ($scope,$http) {
     }
     $scope.nuevo=false;
     $scope.showGraph=false;
+    $scope.otro=false;
     $scope.llenarRestricciones = function () {
         $scope.showGraph=false;
         $scope.restricciones = [];
@@ -29,26 +30,30 @@ app.controller('max-minCtrl', function ($scope,$http) {
         $scope.showGraph=false;
         console.log($scope.restricciones)
         $scope.nuevo=true;
+        $scope.otro=true;
         var fullBody={
             "maxomin": $scope.maxomin,
             "canonica": $scope.formaCanonica,
             "restricciones": $scope.restricciones
         }
+       // $scope.$apply();
         $http.post('/calcular',JSON.stringify(fullBody)).then((result)=>{
             console.log(result)
             if(typeof(result.data)=='string'){
                 alert('Hay una indeterminacion');
+                window.location.reload();
             }else{
                 $scope.resFunObj=result.data.resFunObj;
                 $scope.puntos=result.data.puntos;
                 $scope.showGraph=true;
+                $scope.otro=false;
                 setTimeout(()=>{
                     document.getElementById('img').innerHTML=`<img ng-show="showGraph" src="../static/grafica.png" alt="Grafica">`
                 },1000)
                 document.querySelector('.funcObj').innerHTML=`<p>Resultado:</p><p>x1 = ${$scope.resFunObj.x1}</p><p>x2 = ${$scope.resFunObj.x2}</p><p>Resultado Funcion Objetivo = ${$scope.resFunObj.resultado}</p>`
                 var puntos='<p>Puntos:</p>';
                 for(let i=0;i<$scope.puntos.length;i++){
-                    puntos+=`<p>[ ${$scope.puntos[i][0]} , ${$scope.puntos[i][0]} ]</p>`;
+                    puntos+=`<p>[ ${$scope.puntos[i][0]} , ${$scope.puntos[i][1]} ]</p>`;
                 }
                 document.querySelector('.puntos').innerHTML=puntos;
             }

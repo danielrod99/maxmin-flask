@@ -17,8 +17,8 @@
         </select>
         <br><br>
         <label for="">Funcion Objetivo:</label>
-        <input class="numInput" ng-model="formaCanonica.x1" type="number"><label for="">X1+</label>
-        <input class="numInput" ng-model="formaCanonica.x2" type="number"><label for="">X2</label>
+        <input class="numInput" ng-model="formaCanonica.x1" type="number" step="any"><label for="">X1+</label>
+        <input class="numInput" ng-model="formaCanonica.x2" type="number" step="any"><label for="">X2</label>
         <!-- <button>Guardar</button> -->
         <br><br>
         <label for="">Restricciones:</label>
@@ -38,14 +38,14 @@
         <br>
         <br>
         <div class="todasRestricciones" ng-repeat="restriccion in restricciones track by $index">
-          <input class="numInput" ng-model="restriccion.x1" type="number"><label for="">X1+</label>
-          <input class="numInput" ng-model="restriccion.x2" type="number"><label for="">X2</label>
+          <input class="numInput" ng-model="restriccion.x1" type="number" step="any"><label for="">X1+</label>
+          <input class="numInput" ng-model="restriccion.x2" type="number" step="any"><label for="">X2</label>
           <select ng-model="restriccion.igualador" name="" id="">
             <option value=">=">>=</option>
             <option value="<="><=</option>
             <option value="=">=</option>
           </select>
-          <input class="numInput" ng-model="restriccion.resultado" type="number">
+          <input class="numInput" ng-model="restriccion.resultado" type="number" step="any">
         </div>
         <!-- <button ng-click="guardarRestriccion()">Guardar Restriccion</button> -->
         <br>
@@ -61,7 +61,7 @@
           <div class="puntos" ng-show="showGraph"></div>
         </div>
         <div id="img">
-          <p ng-show="nuevo&&showGraph">Cargando Grafica....</p>
+          <p ng-show="nuevo&&otro">Cargando Grafica y Resultados....</p>
         </div>
         <div class="clearfix"></div>
       </body>
