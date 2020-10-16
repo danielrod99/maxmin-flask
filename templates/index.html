@@ -9,7 +9,7 @@
     </head>
     <body ng-app="maxmin" ng-controller="max-minCtrl">
         <h1>Maximos y Minimos</h1>
-      <div class="card">
+      <div ng-show="!nuevo" class="card">
         <label for="">Max o Min: </label>
         <select ng-model="maxomin" name="" id="">
           <option value="Maximizar">Maximizar</option>
@@ -51,13 +51,17 @@
         <br>
         <button ng-click="calcular()">Calcular y Graficar</button>
       </div>
+      <div ng-show="nuevo" class="card">
+        <p>Hacer un nuevo ejercicio</p>
+        <button ng-click="reloading()">Nuevo</button>
+      </div>
         <br><br>
         <div class="puntosResp">
           <div class="funcObj" ng-show="showGraph"></div>
           <div class="puntos" ng-show="showGraph"></div>
         </div>
         <div id="img">
-          
+          <p ng-show="nuevo&&showGraph">Cargando Grafica....</p>
         </div>
         <div class="clearfix"></div>
       </body>

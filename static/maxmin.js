@@ -10,6 +10,7 @@ app.controller('max-minCtrl', function ($scope,$http) {
         x1:0,
         x2:0
     }
+    $scope.nuevo=false;
     $scope.showGraph=false;
     $scope.llenarRestricciones = function () {
         $scope.showGraph=false;
@@ -34,13 +35,16 @@ app.controller('max-minCtrl', function ($scope,$http) {
         }
         $http.post('/calcular',JSON.stringify(fullBody)).then((result)=>{
             console.log(result)
+            $scope.nuevo=true;
             if(typeof(result.data)=='string'){
                 alert('Hay una indeterminacion');
             }else{
                 $scope.resFunObj=result.data.resFunObj;
                 $scope.puntos=result.data.puntos;
                 $scope.showGraph=true;
-                document.getElementById('img').innerHTML=`<img src="../static/grafica.png" alt="Grafica">`
+                setTimeout(()=>{
+                    document.getElementById('img').innerHTML=`<img ng-show="showGraph" src="../static/grafica.png" alt="Grafica">`
+                },1000)
                 document.querySelector('.funcObj').innerHTML=`<p>Resultado:</p><p>x1 = ${$scope.resFunObj.x1}</p><p>x2 = ${$scope.resFunObj.x2}</p><p>Resultado Funcion Objetivo = ${$scope.resFunObj.resultado}</p>`
                 var puntos='<p>Puntos:</p>';
                 for(let i=0;i<$scope.puntos.length;i++){
@@ -50,6 +54,24 @@ app.controller('max-minCtrl', function ($scope,$http) {
             }
         })
         
+    }
+    $scope.ajustarEstilos=function(){
+        var divImg= document.getElementById('img');
+        var dataDiv= document.querySelector('.puntosResp');
+        var resultDiv=document.querySelector('.funcObj');
+        var puntos= document.querySelector('.puntos');
+        divImg.style.float='left';
+        dataDiv.style.float='left';
+        resultDiv.style.float='left';
+        puntos.style.float='left';
+
+        divImg.style.width='50%';
+        dataDiv.style.width='50%';
+        resultDiv.style.width='50%';
+        puntos.style.width='50%';
+    }
+    $scope.reloading=function(){
+        window.location.reload();
     }
 });
 
