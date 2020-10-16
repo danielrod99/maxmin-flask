@@ -47,16 +47,36 @@ input::-webkit-inner-spin-button {
 .respuestas, h1{
     margin-left: 6px;
 }
-.img, .funcObj, .puntos, .puntosResp{
-    float: left;
-}
-.img, .puntosResp{
+
+#img{
+    display: block;
     width: 50%;
 }
-.funcObj, .puntos{
+ .puntosResp{
+    display: block;
+    width: 50%;
+}
+.funcObj{
+    display: block;
+    width: 50%;
+}
+ .puntos{
+    display: block;
     width: 50%;
 }
 .clearfix{
     float: none;
     clear: both;
+}
+#img{
+    float: left;
+}
+.funcObj{
+    float: left;
+}
+.puntos{
+    float: left;
+}
+.puntosResp{
+    float: left;
 }
