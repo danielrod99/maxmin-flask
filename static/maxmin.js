@@ -28,6 +28,7 @@ app.controller('max-minCtrl', function ($scope,$http) {
     $scope.calcular=function(){
         $scope.showGraph=false;
         console.log($scope.restricciones)
+        $scope.nuevo=true;
         var fullBody={
             "maxomin": $scope.maxomin,
             "canonica": $scope.formaCanonica,
@@ -35,7 +36,6 @@ app.controller('max-minCtrl', function ($scope,$http) {
         }
         $http.post('/calcular',JSON.stringify(fullBody)).then((result)=>{
             console.log(result)
-            $scope.nuevo=true;
             if(typeof(result.data)=='string'){
                 alert('Hay una indeterminacion');
             }else{

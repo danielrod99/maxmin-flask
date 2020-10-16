@@ -210,8 +210,8 @@ def calcular():
         for a in range(len(newPuntos)):
             plt.scatter(newPuntos[a][0],newPuntos[a][1], color="#333333")
             puntos+=f"[ {newPuntos[a][0]} , {newPuntos[a][1]} ]\n"
-        plt.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-        plt.savefig('./static/grafica.png')
+        plt.legend(bbox_to_anchor=(0, 0), loc=2, borderaxespad=4.)
+        plt.savefig('./static/grafica.png',bbox_inches='tight')
         """
         Fin Grafica
         """
@@ -219,4 +219,4 @@ def calcular():
         print(resultados)
         return json.dumps(resultados)
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=False)
