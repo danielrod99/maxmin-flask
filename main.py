@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pulp import *
 import json
+import os
 app = Flask(__name__)
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -14,6 +14,12 @@ def informacion():
     return "<h1>Hola</h1>"
 @app.route('/calcular', methods=['GET','POST'])
 def calcular():
+    try:
+        os.remove('./static/grafica.png')
+        plt.clf()
+        plt.close()
+    except:
+        print('No se pudo borrar')
     if request.method== 'POST':
         fullData=request.get_json()
         #print(fullData)
@@ -85,7 +91,7 @@ def calcular():
                     #sacar puntos
                     g = a * e - b * d
                     if g==0:
-                        return 'Inderterminacion'
+                        return 'inderterminacion'
                     x=(c*e-b*f)/g
                     y=(a*f-c*d)/g
                     soloUno=[]
@@ -205,7 +211,7 @@ def calcular():
             plt.scatter(newPuntos[a][0],newPuntos[a][1], color="#333333")
             puntos+=f"[ {newPuntos[a][0]} , {newPuntos[a][1]} ]\n"
         plt.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-        plt.savefig('grafica.png')
+        plt.savefig('./static/grafica.png')
         """
         Fin Grafica
         """

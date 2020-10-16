@@ -47,3 +47,16 @@ input::-webkit-inner-spin-button {
 .respuestas, h1{
     margin-left: 6px;
 }
+.img, .funcObj, .puntos{
+    float: left;
+}
+.img{
+    width: 50%;
+}
+.funcObj, .puntos{
+    width: 25%;
+}
+.clearfix{
+    float: none;
+    clear: both;
+}
