@@ -219,4 +219,4 @@ def calcular():
         print(resultados)
         return json.dumps(resultados)
 if __name__=='__main__':
-    app.run(debug=False)
+    app.run()
