@@ -109,5 +109,32 @@ app.controller('max-minCtrl', function ($scope,$http) {
             return 'ok'
         }
     }
+    $scope.corregir=function(){
+        try{
+            localStorage.setItem('restricciones',JSON.stringify($scope.restricciones));
+            localStorage.setItem('formaCanonica',JSON.stringify($scope.formaCanonica));
+            localStorage.setItem('maxomin',$scope.maxomin);
+            localStorage.setItem('corregir','si');
+            window.location.reload();
+        }catch(err){
+            alert('No se pudo guardar');
+        }
+    }
+    $scope.revisarSiCorrige=function(){
+        var corrige=localStorage.getItem('corregir');
+        if(corrige=='si'){
+            try{
+                localStorage.setItem('corregir','no');
+                $scope.restricciones=JSON.parse(localStorage.getItem('restricciones'));
+                $scope.formaCanonica=JSON.parse(localStorage.getItem('formaCanonica'));
+                $scope.maxomin=localStorage.getItem('maxomin');
+                $scope.numRestricciones=$scope.restricciones.length
+            }catch(err){
+                alert('No se pudo obtener datos')
+            }
+            
+        }
+    }
+    $scope.revisarSiCorrige();
 });
 
