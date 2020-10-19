@@ -27,6 +27,14 @@ app.controller('max-minCtrl', function ($scope,$http) {
         }
     }    
     $scope.calcular=function(){
+        if($scope.revisarValores()=='error'){
+            alert('Algun valor en las restricciones no es un numero');
+            return
+        }
+        if(isNaN($scope.formaCanonica.x1)==true||isNaN($scope.formaCanonica.x2)==true){
+            alert('Algun valor de la funcion Objetivo no es un numero');
+            return
+        }
         $scope.showGraph=false;
         console.log($scope.restricciones)
         $scope.nuevo=true;
@@ -77,6 +85,29 @@ app.controller('max-minCtrl', function ($scope,$http) {
     }
     $scope.reloading=function(){
         window.location.reload();
+    }
+    $scope.revisarValores=function(){
+        var hayError=false;
+        $scope.restricciones.forEach((item,index)=>{
+            if(isNaN(item.x1)==true){
+                hayError=true;
+                return 'error'
+            }
+            if(isNaN(item.x2)==true){
+                hayError=true;
+                return 'error'
+            }
+            if(isNaN(item.resultado)==true){
+                hayError=true;
+                return 'error'
+            }
+
+        })
+        if(hayError){
+            return 'error'
+        }else{
+            return 'ok'
+        }
     }
 });
 
