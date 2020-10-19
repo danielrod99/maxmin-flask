@@ -28,7 +28,7 @@ def calcular():
         maxomin=fullData['maxomin']
         formaCanonica=fullData['canonica']
         todasRestricciones=fullData['restricciones']
-        fig=Figure()
+        fig=Figure(figsize=(9,6))
         axis=fig.add_subplot(1, 1, 1)
         """
         Resolver por pulp
