@@ -1,6 +1,8 @@
 from flask import Flask, redirect, url_for, render_template, request
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 from pulp import *
 import json
 import os
@@ -16,8 +18,8 @@ def informacion():
 def calcular():
     try:
         os.remove('./static/grafica.png')
-        plt.clf()
-        plt.close()
+        # plt.clf()
+        # plt.close()
     except:
         print('No se pudo borrar')
     if request.method== 'POST':
@@ -26,6 +28,8 @@ def calcular():
         maxomin=fullData['maxomin']
         formaCanonica=fullData['canonica']
         todasRestricciones=fullData['restricciones']
+        fig=Figure()
+        axis=fig.add_subplot(1, 1, 1)
         """
         Resolver por pulp
         """
@@ -163,11 +167,11 @@ def calcular():
                 operacion=(resul/rX2)+((rX1/rX2)*x)
                 allYs.append(operacion)
                 simbolo=todasRestricciones[otherX]["igualador"]
-                plt.plot(x, operacion, label=f"{str(rX1*-1)}X1+{str(rX2)}X2{simbolo}{str(resul)}")
+                axis.plot(x, operacion, label=f"{str(rX1*-1)}X1+{str(rX2)}X2{simbolo}{str(resul)}")
                 if simbolo=="<=":
-                    plt.fill_between(x, operacion, where=operacion<=operacion, alpha=0.5)
+                    axis.fill_between(x, operacion, where=operacion<=operacion, alpha=0.5)
                 elif simbolo==">=":
-                    plt.fill_between(x, operacion, where=operacion>=operacion, alpha=0.5)
+                    axis.fill_between(x, operacion, where=operacion>=operacion, alpha=0.5)
             else:
                 posi=0
                 operacion=np.arange(2000)*0
@@ -190,28 +194,35 @@ def calcular():
                         if c<=posi:
                             operacion[c]=maxY
                 allYs.append(operacion)
-                plt.plot(x, operacion, label=f"{str(rX1*-1)}X1+{str(rX2)}X2={str(resul)}")
+                axis.plot(x, operacion, label=f"{str(rX1*-1)}X1+{str(rX2)}X2={str(resul)}")
                 if simbolo=="<=":
-                    plt.fill_between(x, operacion, where=operacion<=operacion, alpha=0.5)
+                    axis.fill_between(x, operacion, where=operacion<=operacion, alpha=0.5)
                 elif simbolo==">=":
-                    plt.fill_between(x, operacion, where=operacion>=operacion, alpha=0.5)
-        plt.xlim((0, maxX))
-        plt.ylim((0, maxY))
+                    axis.fill_between(x, operacion, where=operacion>=operacion, alpha=0.5)
+        # axis.xlim((0, maxX))
+        axis.set_xlim(0,maxX)
+        # axis.ylim((0, maxY))
+        axis.set_ylim(0,maxY)
         pX1=float(formaCanonica['x1'])
         pX2=float(formaCanonica['x2'])
         if pX2!=0.0:
             funcionObjetivo=(resFobj/pX2)+(((pX1*-1)/pX2)*x)
         else:
             funcionObjetivo=np.arange(2000)*0
-        plt.plot(x,funcionObjetivo,color="black", label=f"Fun. Obj:{str(pX1)}X1+{str(pX2)}X2={str(resFobj)}")
-        plt.xlabel('X1')
-        plt.ylabel('X2')
+        axis.plot(x,funcionObjetivo,color="black", label=f"Fun. Obj:{str(pX1)}X1+{str(pX2)}X2={str(resFobj)}")
+        # axis.xlabel('X1')
+        axis.set_xlabel('X1')
+        # axis.ylabel('X2')
+        axis.set_ylabel('X2')
         puntos="Puntos:\n"
         for a in range(len(newPuntos)):
-            plt.scatter(newPuntos[a][0],newPuntos[a][1], color="#333333")
+            axis.scatter(newPuntos[a][0],newPuntos[a][1], color="#333333")
             puntos+=f"[ {newPuntos[a][0]} , {newPuntos[a][1]} ]\n"
-        plt.legend(bbox_to_anchor=(0, 0), loc=2, borderaxespad=4.)
-        plt.savefig('./static/grafica.png',bbox_inches='tight')
+        box = axis.get_position()
+        axis.set_position([box.x0, box.y0, box.width * 0.7, box.height])
+        axis.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        #plt.savefig('./static/grafica.png',bbox_inches='tight')
+        FigureCanvas(fig).print_png('./static/grafica.png',bbox_inches='tight')
         """
         Fin Grafica
         """
